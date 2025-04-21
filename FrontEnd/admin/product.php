@@ -103,8 +103,14 @@ $products = $stmt->fetchAll();
               <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
                 <h6 class="dark:text-white">All Products</h6>
               </div>
+              <?php 
+              if(isset($_SESSION['message'])) : ?>
+              <h2 class="text-center text-green-500  font-semibold text-xl"><?= $_SESSION['message'];?></h2>
+              <?php 
+                unset($_SESSION['message']);
+                endif; ?>
               <div class="flex-none max-w-full px-3 text-right">
-                    <button class="inline-block px-8 py-2 mb-0 text-xs font-bold leading-normal text-center text-blue-500 align-middle transition-all ease-in bg-transparent border border-blue-500 border-solid rounded-lg shadow-none cursor-pointer bg-150 active:opacity-85 hover:-translate-y-px tracking-tight-rem bg-x-25 hover:opacity-75">Add Product</button>
+                    <button class="inline-block px-8 py-2 mb-0 text-xs font-bold leading-normal text-center text-blue-500 align-middle transition-all ease-in bg-transparent border border-blue-500 border-solid rounded-lg shadow-none cursor-pointer bg-150 active:opacity-85 hover:-translate-y-px tracking-tight-rem bg-x-25 hover:opacity-75"><a href="addProduct.php">Add Product</a></button>
                   </div>
               <div class="flex-auto px-0 pt-0 pb-2">
                 <div class="p-0 overflow-x-auto">
@@ -128,7 +134,7 @@ $products = $stmt->fetchAll();
                         <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
                           <div class="flex px-2 py-1">
                             <div>
-                              <img src="http://localhost/php-rest-api/BackEnd<?= htmlspecialchars($product['picture']) ?>" class="inline-flex items-center justify-center mr-4 text-sm text-white transition-all duration-200 ease-in-out h-12 w-12 rounded-xl" alt="product image" />
+                              <img src="http://localhost:8080/php-rest-api-latest/BackEnd/uploads/<?= htmlspecialchars($product['picture']) ?>" class="inline-flex items-center justify-center mr-4 text-sm text-white transition-all duration-200 ease-in-out h-12 w-12 rounded-xl" alt="product image" />
                             </div>
                            
                           </div>
@@ -137,10 +143,12 @@ $products = $stmt->fetchAll();
                         <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
                           <p class="mb-0 text-xs font-semibold leading-tight dark:text-white dark:opacity-80"><?= $product['name'] ?></p>
                         </td>
-                        <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                        <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent"  style="word-wrap: break-word; overflow-wrap: break-word; white-space: normal; max-width: 300px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
                           <p class="mb-0 text-xs font-semibold leading-tight dark:text-white dark:opacity-80"><?= $product['title'] ?></p>
                         </td>
-                        <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                        <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent"
+                        style="word-wrap: break-word; overflow-wrap: break-word; white-space: normal; max-width: 500px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"
+                        >
                           <span class="bg-gradient-to-tl  px-2.5 text-xs dark:text-white rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline leading-none"><?= $product['description'] ?></span>
                         </td>
                         <td class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
@@ -150,8 +158,8 @@ $products = $stmt->fetchAll();
                           <a href="javascript:;" class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400"> <?= $product['id'] ?> </a>
                         </td>
                         <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                        <a class="relative z-10 inline-block px-2 py-2.5 mb-0 font-bold text-center text-transparent align-middle transition-all border-0 rounded-lg shadow-none cursor-pointer leading-normal text-sm ease-in bg-150 bg-gradient-to-tl from-red-600 to-orange-600 hover:-translate-y-px active:opacity-85 bg-x-25 bg-clip-text" href="javascript:;"><i class="mr-2 far fa-trash-alt bg-150 bg-gradient-to-tl from-red-600 to-orange-600 bg-x-25 bg-clip-text"></i>Delete</a>
-                        <a class="inline-block dark:text-white px-2 py-2.5 mb-0 font-bold text-center align-middle transition-all bg-transparent border-0 rounded-lg shadow-none cursor-pointer leading-normal text-sm ease-in bg-150 hover:-translate-y-px active:opacity-85 bg-x-25 text-slate-700" href="javascript:;"><i class="mr-2 fas fa-pencil-alt text-slate-700" aria-hidden="true"></i>Edit</a>
+                        <a name="deleteBtn" class="relative z-10 inline-block px-2 py-2.5 mb-0 font-bold text-center text-transparent align-middle transition-all border-0 rounded-lg shadow-none cursor-pointer leading-normal text-sm ease-in bg-150 bg-gradient-to-tl from-red-600 to-orange-600 hover:-translate-y-px active:opacity-85 bg-x-25 bg-clip-text" href="javascript:;"><i class="mr-2 far fa-trash-alt bg-150 bg-gradient-to-tl from-red-600 to-orange-600 bg-x-25 bg-clip-text"></i>Delete</a>
+                        <a class="inline-block dark:text-white px-2 py-2.5 mb-0 font-bold text-center align-middle transition-all bg-transparent border-0 rounded-lg shadow-none cursor-pointer leading-normal text-sm ease-in bg-150 hover:-translate-y-px active:opacity-85 bg-x-25 text-slate-700" href="editProduct.php?id=<?= $product['id'];?>"><i class="mr-2 fas fa-pencil-alt text-slate-700" aria-hidden="true"></i>Edit</a>
                         </td>
                       </tr>
                       <?php endforeach; ?>
